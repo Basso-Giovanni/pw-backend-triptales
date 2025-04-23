@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'backendTriptales.apps.BackendtriptalesConfig',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'rest_framework',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'trips.apps.TripsConfig'
 ]
 
 MIDDLEWARE = [
