@@ -83,9 +83,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pwtriptales_db',
         'USER': 'root',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',  # o l'indirizzo del server MySQL
-        'PORT': '3306',       # default di MySQL
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
