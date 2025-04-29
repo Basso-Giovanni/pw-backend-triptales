@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'trips.apps.TripsConfig',
     'images.apps.ImagesConfig',
-    'posts.apps.PostsConfig'
+    'posts.apps.PostsConfig',
+    'comments.apps.CommentsConfig'
 ]
 
 MIDDLEWARE = [
