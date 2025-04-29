@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'users.apps.UsersConfig',
-    'trips.apps.TripsConfig'
+    'trips.apps.TripsConfig',
+    'images.apps.ImagesConfig'
 ]
 
 MIDDLEWARE = [
