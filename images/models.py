@@ -10,6 +10,8 @@ class Image(models.Model):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='created_images', on_delete=models.SET_NULL, null=True
     )
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return f"Image {self.id} by {self.created_by}"

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'trips.apps.TripsConfig',
-    'images.apps.ImagesConfig'
+    'images.apps.ImagesConfig',
+    'posts.apps.PostsConfig'
 ]
 
 MIDDLEWARE = [

@@ -1,7 +1,7 @@
-from rest_framework.routers import DefaultRouter
-from .views import ImageViewSet
+from django.urls import path
+from .views import CreateImageView, ImageDetailView
 
-router = DefaultRouter()
-router.register(r'', ImageViewSet)
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('create/', CreateImageView.as_view(), name='create-image'),
+    path('<int:pk>/', ImageDetailView.as_view(), name='image-detail'),
+]

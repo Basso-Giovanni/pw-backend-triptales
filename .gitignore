@@ -8,11 +8,5 @@ __pycache__/
 # Ignora media files
 media/
 
-# Ignora database locale (opzionale)
-db.sqlite3
-
-# Ignora impostazioni di editor
-.idea/
-
 # Ignora file di ambiente
 .env
