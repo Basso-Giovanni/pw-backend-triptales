@@ -1,5 +1,6 @@
 # Ignora file di ambiente virtuale
 .venv/
+.idea/
 
 # Ignora file compilati
 *.pyc
