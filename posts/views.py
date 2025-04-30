@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import generics, permissions, status
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
@@ -42,3 +43,13 @@ def unlike_post(request, pk):
     post = Post.objects.get(pk=pk)
     post.likes.remove(request.user)
     return Response({'status': 'unliked'})
+
+class TopLikedPostsView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        group_id = self.kwargs['group_id']
+        return Post.objects.filter(group_id=group_id) \
+            .annotate(likes_count=Count('likes')) \
+            .order_by('-likes_count', '-created_at')
