@@ -26,4 +26,7 @@
     <li><b>posts/{pk}/</b> -> Per visualizzare un post (GET), per cancellarlo (solo il proprietario) (DELETE), per aggiornarlo (PATCH)</li>
     <li><b>posts/{pk}/like/</b> -> Per mettere mi piace</li>
     <li><b>posts/{pk}/unlike/</b> -> Per togliere mi piace</li>
+    <li><b>posts/{pk}/comments/</b> -> Restituisce tutti i commenti del post</li>
+    <li><b>posts/{pk}/comments/create/</b> -> Crea nuovo commento per il post</li>
+    <li><b>posts/{pk}/comments/{pk}/</b> -> Vedi commento (GET) o elimina commento (DELETE)</li>
 </ul>
