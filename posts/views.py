@@ -85,3 +85,25 @@ class UserTopLikesView(APIView):
             for user in user_likes
         ]
         return Response(data)
+
+class UserTopPostsView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get(self, request, group_id):
+        # Conta i post per autore nel gruppo specificato
+        user_post_counts = (
+            User.objects.filter(created_posts__group_id=group_id)
+            .annotate(total_posts=Count('created_posts'))
+            .filter(total_posts__gt=0)
+            .order_by('-total_posts')
+        )
+
+        data = [
+            {
+                'user_id': user.id,
+                'username': user.username,
+                'total_posts': user.total_posts
+            }
+            for user in user_post_counts
+        ]
+        return Response(data)
