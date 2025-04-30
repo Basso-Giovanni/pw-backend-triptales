@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from images.models import Image
+from trips.models import TripGroup
 
 class Post(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -23,6 +24,11 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL,
         related_name='liked_posts',
         blank=True
+    )
+    group = models.ForeignKey(
+        TripGroup,
+        related_name='posts',
+        on_delete=models.CASCADE
     )
 
     def __str__(self):
