@@ -7,12 +7,14 @@ Endpoint per la gestione degli utenti.<br>
   <li>POST - <b>users/login/</b> -> Per ottenere il token. Body: username e password.</li>
   <li>GET - <b>users/profile/</b> -> Per ottenere le informazioni dell'utente. Header: Authorization Token <i>token_utente</i>. Restituisce: username, email, bio e avatar.</li>
   <li>PATCH - <b>users/profile/update/</b> -> Per aggiornare le informazioni dell'utente. Header: Authorization Token <i>token_utente</i>. Body: tutti i campi che si vogliono aggiornare.</li>
+  <li>GET - <b>users/my-trips/</b> -> Per vedere i gruppi a cui l'utente è iscritto. Header: Authorization Token <i>token_utente</i>. Restituisce: un array di ID dei gruppi a cui è iscritto.</li>
 </ul>
 
 ### Trips
 Endpoint per la gestione dei gruppi gita.
 <ul>
   <li>POST - <b>trips/create/</b> -> Per creare un nuovo gruppo gita. Header: Authorization Token <i>token_utente</i>. Body: name e description.</li>
+  <li>GET - <b>trips/info/{int:id_gruppo}/</b> -> Per vedere info del gruppo specificato. Header: Authorization Token <i>token_utente</i> (per adesso basta avere il token, devo mettere che solo chi è nel gruppo può usarlo). Restituisce: tutte le info del gruppo gita.</li>
   <li>POST - <b>trips/join/{int:id_gruppo}/</b> -> Per unirsi ad un gruppo gita. Header: Authorization Token <i>token_utente</i>.</li>
   <li>GET - <b>trips/{int:id_gruppo}/posts/</b> -> Per ottenere post di un gruppo. Header: Authorization Token <i>token_utente</i> (per adesso basta avere il token, devo mettere che solo chi è nel gruppo può usarlo). Restituisce un array con i post.</li>
   <li>GET - <b>trips/{int:id_gruppo}/top-like/</b> -> Per ottenere la classifica dei post più piaciuti. Header: Authorization Token <i>token_utente</i> (per adesso basta avere il token, devo mettere che solo chi è nel gruppo può usarlo).</li>
