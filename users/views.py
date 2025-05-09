@@ -4,6 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+
+from trips.models import TripGroup
+from trips.serializers import TripGroupSerializer
 from .serializers import UserSerializer
 
 # View per ottenere il profilo utente
@@ -74,3 +77,10 @@ class LoginUserView(APIView):
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
+class MyTripGroupsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        group_ids = TripGroup.objects.filter(members=user).values_list('id', flat=True)
+        return Response(list(group_ids))

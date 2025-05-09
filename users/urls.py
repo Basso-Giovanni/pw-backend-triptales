@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import UserProfileView, UpdateProfileView, RegisterUserView, LoginUserView
+from .views import UserProfileView, UpdateProfileView, RegisterUserView, LoginUserView, MyTripGroupsView
 
 urlpatterns = [
     path('register/', RegisterUserView.as_view(), name='register'),
     path('login/', LoginUserView.as_view(), name='login'),
     path('profile/', UserProfileView.as_view(), name='user-profile'),
     path('profile/update/', UpdateProfileView.as_view(), name='update-profile'),
+    path('my-trips/', MyTripGroupsView.as_view(), name='my-trip-group'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
