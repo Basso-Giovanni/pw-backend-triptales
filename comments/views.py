@@ -5,7 +5,7 @@ from .serializers import CommentSerializer
 
 class CommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         post_id = self.kwargs['post_pk']
@@ -17,7 +17,7 @@ class CommentListCreateView(generics.ListCreateAPIView):
 
 class CommentDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         post_id = self.kwargs['post_pk']

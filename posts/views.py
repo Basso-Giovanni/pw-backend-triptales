@@ -1,12 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
-
 from .models import Post
 from .serializers import PostSerializer
 
@@ -20,7 +18,7 @@ class CreatePostView(generics.CreateAPIView):
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_update(self, serializer):
         if self.request.user != serializer.instance.created_by:
@@ -52,7 +50,7 @@ def unlike_post(request, pk):
 
 class TopLikedPostsView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']
@@ -65,7 +63,7 @@ class TopLikedPostsView(generics.ListAPIView):
 User = get_user_model()
 
 class UserTopLikesView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
         # Aggrega like ricevuti per autore nei post di quel gruppo
@@ -87,7 +85,7 @@ class UserTopLikesView(APIView):
         return Response(data)
 
 class UserTopPostsView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
         # Conta i post per autore nel gruppo specificato

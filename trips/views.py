@@ -32,7 +32,7 @@ class JoinTripGroupView(generics.GenericAPIView):
 
 class TripGroupPostsListView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']

@@ -13,4 +13,4 @@ class CreateImageView(generics.CreateAPIView):
 class ImageDetailView(generics.RetrieveAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
