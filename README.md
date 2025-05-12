@@ -3,22 +3,19 @@ TripTales è un'app Android pensata per studenti in gita scolastica. Permette di
 
 ## Obiettivo del progetto
 L'obiettivo è realizzare un'applicazione mobile che:
-<ul>
-    <li>Favorisca la collaborazione tra studenti durante una gita.</li>
-    <li>Sfrutti intelligenza artificiale e geolocalizzazione per migliorare l'esperienza educativa.</li>
-    <li>Permetta la documentazione multimediale tramite foto, testi, mappe e badge gamificati.</li>
-</ul>
+
+- Favorisca la collaborazione tra studenti durante una gita.
+- Sfrutti intelligenza artificiale e geolocalizzazione per migliorare l'esperienza educativa.
+- Permetta la documentazione multimediale tramite foto, testi, mappe e badge gamificati.
 
 ## Django Rest Framework
-<ul>
-<li>Autenticazione con JWT.</li>
-<li>API REST per gestione utenti, gruppi, post, badge, commenti e immagini.</li>
-<li>Storage immagini e metadati (OCR, oggetti rilevati, ecc.). <b>In realtà non so se si usa</b></li>
-</ul>
+- Autenticazione con JWT.
+- API REST per gestione utenti, gruppi, post, badge, commenti e immagini.
+- Storage immagini e metadati (OCR, oggetti rilevati, ecc.). **In realtà non so se si usa**
 
 ## Endpoints
 ### Users
-Endpoint per la gestione degli utenti.<br>
+Endpoint per la gestione degli utenti.
 <ul>
   <li>POST - <b>users/register/</b> -> Per registrare un nuovo utente. Body: username, email, password, bio e avatar. Restituisce il token dell'utente.</li>
   <li>POST - <b>users/login/</b> -> Per ottenere il token. Body: username e password.</li>
@@ -62,26 +59,38 @@ Endpoint per la gestione dei post.
 </ul>
 
 ## Struttura dei repository
-<ul>
-    <li><a href="https://github.com/AlbertooValente/pw-frontend-triptales">Frontend</a></li>
-    <li>Backend</li>
-</ul>
+
+- [Frontend](https://github.com/AlbertooValente/pw-frontend-triptales)
+- Backend
 
 ## Installazione e Setup
-<ol>
-    <li>Clona il repo:
-<pre> ```bash git clone https://github.com/Basso-Giovanni/pw-backend-triptales.git``` </pre>
-</li>
-<li>Installa le dipendenze: <pre>```python pip install -r requirements.txt ```</pre>
-</li>
-<li>Configura .env con credenziali DB.</li>
-<li>Migra il database: <pre>```bash python manage.py migrate ```</pre>
-</li>
-<li>Avvia il server:
-<pre>```bash python manage.py runserver ```</pre>
-</li>
-</ol>
+
+1. Clona il repo:
+
+   ```bash
+   git clone https://github.com/Basso-Giovanni/pw-backend-triptales.git
+   ```
+
+2. Installa le dipendenze:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configura `.env` con credenziali DB.
+
+4. Migra il database:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+5. Avvia il server:
+
+   ```bash
+   python manage.py runserver
+   ```
 
 ## Autori
-Basso Giovanni, 5BII <br>
-Valente Alberto, 5BII
+- Basso Giovanni, 5BII  
+- Valente Alberto, 5BII
