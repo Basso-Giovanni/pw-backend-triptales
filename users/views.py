@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import status, generics
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-
 from trips.models import TripGroup
-from trips.serializers import TripGroupSerializer
-from .serializers import UserSerializer
+from .serializers import UserSerializer, PublicUserSerializer
+
 
 # View per ottenere il profilo utente
 class UserProfileView(APIView):
@@ -18,6 +18,14 @@ class UserProfileView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+CustomUser = get_user_model()
+class UserProfileViewByID(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id, *args, **kwargs):
+        user = get_object_or_404(CustomUser, id=user_id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 # View per aggiornare il profilo utente
 class UpdateProfileView(APIView):
@@ -27,7 +35,7 @@ class UpdateProfileView(APIView):
         user = request.user  # Ottieni l'utente autenticato
 
         # Usa il serializer per validare i dati e aggiornare l'utente
-        serializer = UserSerializer(user, data=request.data, partial=True)  # 'partial=True' consente di aggiornare solo i campi forniti
+        serializer = PublicUserSerializer(user)
 
         if serializer.is_valid():
             serializer.save()  # Salva i cambiamenti nel database

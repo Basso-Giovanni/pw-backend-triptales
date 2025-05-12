@@ -20,6 +20,7 @@ Endpoint per la gestione degli utenti.
   <li>POST - <b>users/register/</b> -> Per registrare un nuovo utente. Body: username, email, password, bio e avatar. Restituisce il token dell'utente.</li>
   <li>POST - <b>users/login/</b> -> Per ottenere il token. Body: username e password.</li>
   <li>GET - <b>users/profile/</b> -> Per ottenere le informazioni dell'utente. Header: Authorization Token <i>token_utente</i>. Restituisce: username, email, bio e avatar.</li>
+  <li>GET - <b>users/profile/{int:user_id}</b> -> Per ottenere le informazioni dell'utente specificato. Header: Authorization Token <i>token_utente</i>. Restituisce: username, email, bio e avatar.</li>
   <li>PATCH - <b>users/profile/update/</b> -> Per aggiornare le informazioni dell'utente. Header: Authorization Token <i>token_utente</i>. Body: tutti i campi che si vogliono aggiornare.</li>
   <li>GET - <b>users/my-trips/</b> -> Per vedere i gruppi a cui l'utente è iscritto. Header: Authorization Token <i>token_utente</i>. Restituisce: un array di ID dei gruppi a cui è iscritto.</li>
 </ul>
