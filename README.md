@@ -1,4 +1,21 @@
-# Backend del progetto TripTales
+# TripTales - Diario di Gita con Intelligenza Artificiale
+TripTales è un'app Android pensata per studenti in gita scolastica. Permette di documentare e condividere in modo collaborativo momenti salienti attraverso foto, commenti e geolocalizzazione, arricchiti con funzionalità smart offerte da ML Kit di Google. Questo è il backend side del progetto.
+
+## Obiettivo del progetto
+L'obiettivo è realizzare un'applicazione mobile che:
+<ul>
+    <li>Favorisca la collaborazione tra studenti durante una gita.</li>
+    <li>Sfrutti intelligenza artificiale e geolocalizzazione per migliorare l'esperienza educativa.</li>
+    <li>Permetta la documentazione multimediale tramite foto, testi, mappe e badge gamificati.</li>
+</ul>
+
+## Django Rest Framework
+<ul>
+<li>Autenticazione con JWT.</li>
+<li>API REST per gestione utenti, gruppi, post, badge, commenti e immagini.</li>
+<li>Storage immagini e metadati (OCR, oggetti rilevati, ecc.). <b>In realtà non so se si usa</b></li>
+</ul>
+
 ## Endpoints
 ### Users
 Endpoint per la gestione degli utenti.<br>
@@ -34,12 +51,43 @@ Endpoint per la gestione dei post.
 <ul>
     <li>POST - <b>posts/create/</b> -> Per creare un nuovo post. Header: Authorization Token <i>token_utente</i>. Body: title, description, image (id immagine), group (id gruppo).</li>
     <li>GET - <b>posts/{int:id_post}/</b> -> Per vedere i dettagli del post. Header: Authorization Token <i>token_utente</i>.</li>
-<li>PATCH - <b>posts/{int:id_post}/</b> -> Per modificare i dettagli del post. Header: Authorization Token <i>token_utente</i>. Body: tutti i campi da modificare.</li>
-  <li>DELETE - <b>posts/{int:id_post}/</b> -> Per eliminare il post. Header: Authorization Token <i>token_utente</i>.</li>
+    <li>PATCH - <b>posts/{int:id_post}/</b> -> Per modificare i dettagli del post. Header: Authorization Token <i>token_utente</i>. Body: tutti i campi da modificare.</li>
+    <li>DELETE - <b>posts/{int:id_post}/</b> -> Per eliminare il post. Header: Authorization Token <i>token_utente</i>.</li>
     <li>POST - <b>posts/{int:id_post}/like/</b> -> Per mettere mi piace. Header: Authorization Token <i>token_utente</i>. Al massimo un piace per utente.</li>
     <li>POST - <b>posts/{int:id_post}/unlike/</b> -> Per togliere mi piace. Header: Authorization Token <i>token_utente</i>.</li>
     <li>GET - <b>posts/{int:id_post}/comments/</b> -> Restituisce tutti i commenti del post. Header: Authorization Token <i>token_utente</i>.</li>
     <li>POST - <b>posts/{int:id_post}/comments/</b> -> Crea nuovo commento per il post. Header: Authorization Token <i>token_utente</i>. Body: text.</li>
     <li>GET - <b>posts/{int:id_post}/comments/{int:id_commento}/</b> -> Per vedere un commento. Header: Authorization Token <i>token_utente</i>.</li>
-  <li>DELETE - <b>posts/{int:id_post}/comments/{int:id_commento}/</b> -> Per cancellare un commento. Header: Authorization Token <i>token_utente</i>.</li>
+    <li>DELETE - <b>posts/{int:id_post}/comments/{int:id_commento}/</b> -> Per cancellare un commento. Header: Authorization Token <i>token_utente</i>.</li>
 </ul>
+
+## Struttura dei repository
+<ul>
+    <li>[Frontend](https://github.com/AlbertooValente/pw-frontend-triptales)</li>
+    <li>Backend</li>
+</ul>
+
+## Installazione e Setup
+<ol>
+    <li>Clona il repo:
+```bash
+git clone https://github.com/Basso-Giovanni/pw-backend-triptales.git
+</li>
+<li>Installa le dipendenze:
+```python
+pip install -r requirements.txt
+</li>
+<li>Configura .env con credenziali DB.</li>
+<li>Migra il database:
+```bash
+python manage.py migrate
+</li>
+<li>Avvia il server:
+```bash
+python manage.py runserver
+</li>
+</ol>
+
+## Autori
+Basso Giovanni, 5BII <br>
+Valente Alberto, 5BII
