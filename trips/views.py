@@ -1,10 +1,8 @@
 from rest_framework import generics, permissions, status
-from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-
 from posts.models import Post
 from posts.serializers import PostSerializer
+from .helpers import assert_user_is_group_member
 from .models import TripGroup
 from .serializers import TripGroupSerializer
 
@@ -37,6 +35,7 @@ class TripGroupPostsListView(generics.ListAPIView):
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']
+        assert_user_is_group_member(self.request.user, group_id)  # verifica accesso
         return Post.objects.filter(group_id=group_id).order_by('-created_at')
 
 class TripGroupDetailView(generics.GenericAPIView):
@@ -44,6 +43,6 @@ class TripGroupDetailView(generics.GenericAPIView):
     serializer_class = TripGroupSerializer
 
     def get(self, request, group_id):
-        group = get_object_or_404(TripGroup, id=group_id)
+        group = assert_user_is_group_member(request.user, group_id)
         serializer = self.get_serializer(group)
         return Response(serializer.data)

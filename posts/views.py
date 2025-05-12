@@ -5,6 +5,8 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
+
+from .helpers import assert_user_is_group_member
 from .models import Post
 from .serializers import PostSerializer
 
@@ -13,6 +15,8 @@ class CreatePostView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
+        group = serializer.validated_data.get('group')
+        assert_user_is_group_member(self.request.user, group.id)
         serializer.save(created_by=self.request.user)
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -36,6 +40,7 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
 @permission_classes([permissions.IsAuthenticated])
 def like_post(request, pk):
     post = Post.objects.get(pk=pk)
+    assert_user_is_group_member(request.user, post.group.id)
     post.likes.add(request.user)
     return Response({'status': 'liked'})
 
@@ -43,6 +48,7 @@ def like_post(request, pk):
 @permission_classes([permissions.IsAuthenticated])
 def unlike_post(request, pk):
     post = Post.objects.get(pk=pk)
+    assert_user_is_group_member(request.user, post.group.id)
     post.likes.remove(request.user)
     return Response({'status': 'unliked'})
 
@@ -54,6 +60,7 @@ class TopLikedPostsView(generics.ListAPIView):
 
     def get_queryset(self):
         group_id = self.kwargs['group_id']
+        assert_user_is_group_member(self.request.user, group_id)
         return Post.objects.filter(group_id=group_id) \
             .annotate(likes_count=Count('likes')) \
             .order_by('-likes_count', '-created_at')
@@ -66,6 +73,7 @@ class UserTopLikesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
+        assert_user_is_group_member(self.request.user, group_id)
         # Aggrega like ricevuti per autore nei post di quel gruppo
         user_likes = (
             User.objects.filter(created_posts__group_id=group_id)
@@ -88,6 +96,7 @@ class UserTopPostsView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
+        assert_user_is_group_member(self.request.user, group_id)
         # Conta i post per autore nel gruppo specificato
         user_post_counts = (
             User.objects.filter(created_posts__group_id=group_id)
