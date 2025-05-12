@@ -63,28 +63,22 @@ Endpoint per la gestione dei post.
 
 ## Struttura dei repository
 <ul>
-    <li>[Frontend](https://github.com/AlbertooValente/pw-frontend-triptales)</li>
+    <li><a href="https://github.com/AlbertooValente/pw-frontend-triptales">Frontend</a></li>
     <li>Backend</li>
 </ul>
 
 ## Installazione e Setup
 <ol>
     <li>Clona il repo:
-```bash
-git clone https://github.com/Basso-Giovanni/pw-backend-triptales.git
+<pre> ```bash git clone https://github.com/Basso-Giovanni/pw-backend-triptales.git``` </pre>
 </li>
-<li>Installa le dipendenze:
-```python
-pip install -r requirements.txt
+<li>Installa le dipendenze: <pre>```python pip install -r requirements.txt ```</pre>
 </li>
 <li>Configura .env con credenziali DB.</li>
-<li>Migra il database:
-```bash
-python manage.py migrate
+<li>Migra il database: <pre>```bash python manage.py migrate ```</pre>
 </li>
 <li>Avvia il server:
-```bash
-python manage.py runserver
+<pre>```bash python manage.py runserver ```</pre>
 </li>
 </ol>
 
