@@ -93,5 +93,4 @@ Endpoint per la gestione dei post.
    ```
 
 ## Autori
-- Basso Giovanni, 5BII  
-- Valente Alberto, 5BII
+SegFault Squad: Basso Giovanni e Valente Alberto
