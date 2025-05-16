@@ -1,7 +1,4 @@
-from rest_framework import serializers, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 CustomUser = get_user_model()
@@ -9,7 +6,7 @@ CustomUser = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password', 'bio', 'avatar']
+        fields = ['id', 'username', 'email', 'password', 'bio', 'avatar']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
