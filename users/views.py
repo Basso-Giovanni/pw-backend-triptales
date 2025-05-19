@@ -35,7 +35,7 @@ class UpdateProfileView(APIView):
         user = request.user  # Ottieni l'utente autenticato
 
         # Usa il serializer per validare i dati e aggiornare l'utente
-        serializer = PublicUserSerializer(user)
+        serializer = UserSerializer(user, request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()  # Salva i cambiamenti nel database
