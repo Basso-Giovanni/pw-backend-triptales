@@ -1,10 +1,14 @@
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from posts.models import Post
 from posts.serializers import PostSerializer
+from .badge_utils import check_and_assign_user_badge
 from .helpers import assert_user_is_group_member
-from .models import TripGroup
-from .serializers import TripGroupSerializer
+from .models import TripGroup, UserGroupBadge
+from .serializers import TripGroupSerializer, BadgeSerializer
+
 
 class CreateTripGroupView(generics.CreateAPIView):
     queryset = TripGroup.objects.all()
@@ -13,7 +17,6 @@ class CreateTripGroupView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, members=[self.request.user])
-
 
 class JoinTripGroupView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -27,6 +30,9 @@ class JoinTripGroupView(generics.GenericAPIView):
             return Response({'error': 'Gruppo non trovato'}, status=status.HTTP_404_NOT_FOUND)
 
         group.members.add(request.user)
+        # Assegna o aggiorna il badge per l'utente nel gruppo
+        check_and_assign_user_badge(request.user, group)
+
         return Response({'message': 'Unito al gruppo con successo'}, status=status.HTTP_200_OK)
 
 class TripGroupPostsListView(generics.ListAPIView):
@@ -46,3 +52,18 @@ class TripGroupDetailView(generics.GenericAPIView):
         group = assert_user_is_group_member(request.user, group_id)
         serializer = self.get_serializer(group)
         return Response(serializer.data)
+
+class UserGroupBadgeView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, group_id):
+        # Verifica che l'utente sia membro del gruppo
+        group = assert_user_is_group_member(request.user, group_id)
+
+        try:
+            user_badge = UserGroupBadge.objects.get(user=request.user, group=group)
+            badge_data = BadgeSerializer(user_badge.badge).data
+        except UserGroupBadge.DoesNotExist:
+            badge_data = None
+
+        return Response({'badge': badge_data})

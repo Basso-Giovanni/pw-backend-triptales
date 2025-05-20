@@ -1,5 +1,8 @@
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
+
+from posts.models import Post
+from trips.badge_utils import check_and_assign_user_badge
 from .helpers import assert_user_can_comment_post
 from .models import Comment
 from .serializers import CommentSerializer
@@ -17,6 +20,14 @@ class CommentListCreateView(generics.ListCreateAPIView):
         post_id = self.kwargs['post_pk']
         assert_user_can_comment_post(self.request.user, post_id)
         serializer.save(author=self.request.user, post_id=post_id)
+
+        # 🔥 Ricalcolo del badge per l'utente
+        try:
+            post = Post.objects.get(id=post_id)
+            check_and_assign_user_badge(self.request.user, post.group)
+        except Post.DoesNotExist:
+            pass  # sicurezza: se il post sparisce, non fallisce il salvataggio
+
 
 class CommentDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = CommentSerializer

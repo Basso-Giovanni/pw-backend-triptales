@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 
+from trips.badge_utils import check_and_assign_user_badge
 from .helpers import assert_user_is_group_member
 from .models import Post
 from .serializers import PostSerializer
@@ -18,6 +19,7 @@ class CreatePostView(generics.CreateAPIView):
         group = serializer.validated_data.get('group')
         assert_user_is_group_member(self.request.user, group.id)
         serializer.save(created_by=self.request.user)
+        check_and_assign_user_badge(self.request.user, group)
 
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -34,7 +36,6 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
             raise PermissionDenied("Non puoi eliminare questo post.")
         instance.delete()
 
-
 # SEZIONE DI CODICE PER IL LIKE DEI POST
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
@@ -42,6 +43,8 @@ def like_post(request, pk):
     post = Post.objects.get(pk=pk)
     assert_user_is_group_member(request.user, post.group.id)
     post.likes.add(request.user)
+    check_and_assign_user_badge(request.user, post.group)
+
     return Response({'status': 'liked'})
 
 @api_view(['POST'])
