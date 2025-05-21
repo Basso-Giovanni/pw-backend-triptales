@@ -20,11 +20,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
-    path('trips/', include('trips.urls')),
-    path('images/', include('images.urls')),
-    path('posts/', include('posts.urls'))
+    #path('admin/', admin.site.urls),
+    path('users/', include('users.urls')), #sezione utenti
+    path('trips/', include('trips.urls')), #sezione gruppi
+    path('images/', include('images.urls')), #sezione immagini
+    path('posts/', include('posts.urls')) #sezione post
 ]
 
 if settings.DEBUG:

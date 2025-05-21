@@ -3,6 +3,7 @@ from django.db import models
 from images.models import Image
 from trips.models import TripGroup
 
+#model del post
 class Post(models.Model):
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)

@@ -1,8 +1,8 @@
 import os
-
 from django.conf import settings
 from django.db import models
 
+#model dell'immagine
 class Image(models.Model):
     image = models.ImageField(upload_to='uploads/')
     description = models.TextField(blank=True)
@@ -16,8 +16,8 @@ class Image(models.Model):
     def __str__(self):
         return f"Image {self.id} by {self.created_by}"
 
+    #funzione per cancellare l'immagine quando viene cancellato il post
     def delete(self, *args, **kwargs):
         if self.image and os.path.isfile(self.image.path):
             os.remove(self.image.path)
         super().delete(*args, **kwargs)
-

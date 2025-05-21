@@ -5,12 +5,14 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
-
 from trips.badge_utils import check_and_assign_user_badge
 from .helpers import assert_user_is_group_member
 from .models import Post
 from .serializers import PostSerializer
 
+User = get_user_model()
+
+#per creare un post
 class CreatePostView(generics.CreateAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -21,6 +23,7 @@ class CreatePostView(generics.CreateAPIView):
         serializer.save(created_by=self.request.user)
         check_and_assign_user_badge(self.request.user, group)
 
+#per vedere/aggiornare/cancellare i dettagli di un post
 class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -37,6 +40,7 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.delete()
 
 # SEZIONE DI CODICE PER IL LIKE DEI POST
+#per mettere like ad un post
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def like_post(request, pk):
@@ -47,6 +51,7 @@ def like_post(request, pk):
 
     return Response({'status': 'liked'})
 
+#per togliere il like
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def unlike_post(request, pk):
@@ -55,8 +60,7 @@ def unlike_post(request, pk):
     post.likes.remove(request.user)
     return Response({'status': 'unliked'})
 
-# SEZIONE DI CODICE PER CLASSIFICA POST
-
+#classifica post
 class TopLikedPostsView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -68,20 +72,16 @@ class TopLikedPostsView(generics.ListAPIView):
             .annotate(likes_count=Count('likes')) \
             .order_by('-likes_count', '-created_at')
 
-# SEZIONE DI CODICE PER CLASSIFICA UTENTI
-
-User = get_user_model()
-
+#classifica utenti (like)
 class UserTopLikesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
         assert_user_is_group_member(self.request.user, group_id)
-        # Aggrega like ricevuti per autore nei post di quel gruppo
         user_likes = (
             User.objects.filter(created_posts__group_id=group_id)
             .annotate(total_likes=Count('created_posts__likes', distinct=True))
-            .filter(total_likes__gt=0)  # esclude chi ha 0 like
+            .filter(total_likes__gt=0)  #ignora chi non ha like
             .order_by('-total_likes')
         )
 
@@ -95,12 +95,13 @@ class UserTopLikesView(APIView):
         ]
         return Response(data)
 
+#classifica utenti (post)
 class UserTopPostsView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id):
         assert_user_is_group_member(self.request.user, group_id)
-        # Conta i post per autore nel gruppo specificato
+        # conta i post per utente
         user_post_counts = (
             User.objects.filter(created_posts__group_id=group_id)
             .annotate(total_posts=Count('created_posts'))

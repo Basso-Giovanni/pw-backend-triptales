@@ -137,11 +137,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Per l'autenticazione con token
-    ],
-   # 'DEFAULT_PERMISSION_CLASSES': [
-    #    'rest_framework.permissions.IsAuthenticated',  # Assicurati che solo utenti autenticati possano accedere agli endpoint protetti
-    #],
+        'rest_framework.authentication.TokenAuthentication',  #per l'autenticazione con token
+    ]
 }
 
 MEDIA_URL = '/media/'

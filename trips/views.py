@@ -11,6 +11,7 @@ from .serializers import TripGroupSerializer, BadgeSerializer
 
 User = get_user_model()
 
+#view per creare un gruppo gita
 class CreateTripGroupView(generics.CreateAPIView):
     queryset = TripGroup.objects.all()
     serializer_class = TripGroupSerializer
@@ -19,6 +20,7 @@ class CreateTripGroupView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user, members=[self.request.user])
 
+#per entrare in un gruppo
 class JoinTripGroupView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = TripGroupSerializer
@@ -31,11 +33,12 @@ class JoinTripGroupView(generics.GenericAPIView):
             return Response({'error': 'Gruppo non trovato'}, status=status.HTTP_404_NOT_FOUND)
 
         group.members.add(request.user)
-        # Assegna o aggiorna il badge per l'utente nel gruppo
+        #controllo badge
         check_and_assign_user_badge(request.user, group)
 
         return Response({'message': 'Unito al gruppo con successo'}, status=status.HTTP_200_OK)
 
+#elenco post di un gruppo
 class TripGroupPostsListView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -45,6 +48,7 @@ class TripGroupPostsListView(generics.ListAPIView):
         assert_user_is_group_member(self.request.user, group_id)  # verifica accesso
         return Post.objects.filter(group_id=group_id).order_by('-created_at')
 
+#info di un gruppo
 class TripGroupDetailView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = TripGroupSerializer
@@ -54,20 +58,18 @@ class TripGroupDetailView(generics.GenericAPIView):
         serializer = self.get_serializer(group)
         return Response(serializer.data)
 
+#per vedere il badge di un utente
 class MemberBadgeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, group_id, user_id):
-        # Verifica che chi fa la richiesta sia membro del gruppo
         group = assert_user_is_group_member(request.user, group_id)
 
-        # Verifica che il membro specificato sia davvero nel gruppo
         try:
             member = group.members.get(id=user_id)
         except User.DoesNotExist:
             return Response({"error": "Questo utente non fa parte del gruppo."}, status=status.HTTP_404_NOT_FOUND)
 
-        # Cerca il badge assegnato
         try:
             user_badge = UserGroupBadge.objects.get(user=member, group=group)
             badge_data = BadgeSerializer(user_badge.badge).data

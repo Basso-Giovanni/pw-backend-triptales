@@ -1,12 +1,12 @@
 from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
-
 from posts.models import Post
 from trips.badge_utils import check_and_assign_user_badge
 from .helpers import assert_user_can_comment_post
 from .models import Comment
 from .serializers import CommentSerializer
 
+#per avere elenco dei commenti di un post
 class CommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -21,14 +21,15 @@ class CommentListCreateView(generics.ListCreateAPIView):
         assert_user_can_comment_post(self.request.user, post_id)
         serializer.save(author=self.request.user, post_id=post_id)
 
-        # 🔥 Ricalcolo del badge per l'utente
+        # controllo badge
         try:
             post = Post.objects.get(id=post_id)
             check_and_assign_user_badge(self.request.user, post.group)
         except Post.DoesNotExist:
-            pass  # sicurezza: se il post sparisce, non fallisce il salvataggio
+            pass  #se il post sparisce, non fallisce il salvataggio
 
 
+#per vedere un commento singolo
 class CommentDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -42,4 +43,3 @@ class CommentDetailView(generics.RetrieveDestroyAPIView):
         if self.request.user != instance.author:
             raise PermissionDenied("Non puoi eliminare questo commento.")
         instance.delete()
-

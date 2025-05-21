@@ -1,8 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-CustomUser = get_user_model()
+CustomUser = get_user_model() #utente
 
+"""
+    Serializzatore dell'utente
+"""
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -13,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
         if 'username' not in validated_data:
             raise serializers.ValidationError({"username": "Questo campo è obbligatorio"})
 
+        #verifica che i dati inseriti siano corretti
         user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
@@ -23,10 +27,9 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        # Gestione separata della password per assicurarne la cifratura
+        #cifratura password
         password = validated_data.pop('password', None)
 
-        # Aggiorna gli altri campi normalmente
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
@@ -36,6 +39,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+"""
+    Serializzatore per l'utente pubblico
+"""
 class PublicUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

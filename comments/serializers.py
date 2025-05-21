@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Comment
 
+#serializzatore dei commenti
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
 

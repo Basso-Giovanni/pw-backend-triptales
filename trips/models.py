@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from users.models import CustomUser
 
+#model del gruppo
 class TripGroup(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
@@ -16,6 +17,7 @@ class TripGroup(models.Model):
     def __str__(self):
         return self.name
 
+#model del badge
 class Badge(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
@@ -23,6 +25,7 @@ class Badge(models.Model):
     def __str__(self):
         return self.name
 
+#model per il badge dell'utente (un utente può avere solo un badge per ogni gruppo)
 class UserGroupBadge(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     group = models.ForeignKey(TripGroup, on_delete=models.CASCADE)
@@ -30,7 +33,7 @@ class UserGroupBadge(models.Model):
     date_awarded = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('user', 'group')  # Un solo badge per utente-gruppo
+        unique_together = ('user', 'group')
 
     def __str__(self):
         return f"{self.user.username} - {self.badge.name} in {self.group.name}"
