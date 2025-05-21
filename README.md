@@ -35,6 +35,7 @@ Endpoint per la gestione dei gruppi gita.
   <li>GET - <b>trips/{int:id_gruppo}/top-like/</b> -> Per ottenere la classifica dei post più piaciuti. Header: Authorization Token <i>token_utente</i>.</li>
   <li>GET - <b>trips/{int:id_gruppo}/top-like-user/</b> -> Per ottenere la classifica degli utenti più piaciuti. Header: Authorization Token <i>token_utente</i>.</li>
   <li>GET - <b>trips/{int:id_gruppo}/top-posters/</b> -> Per ottenere la classifica degli utenti che hanno pubblicato più post. Header: Authorization Token <i>token_utente</i>.</li>
+  <li>GET - <b>trips/{int:id_gruppo}/badge/{int:id_utente}/</b> -> Per ottenere il badge di un utente. Header: Authorization Token <i>token_utente</i>.</li>
 </ul>
 
 ### Images

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from trips.models import TripGroup, Badge
 
-
 class TripGroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = TripGroup
@@ -11,4 +10,4 @@ class TripGroupSerializer(serializers.ModelSerializer):
 class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
-        fields = ['name', 'description', 'icon']
+        fields = ['name', 'description']
