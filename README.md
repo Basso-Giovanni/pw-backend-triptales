@@ -11,7 +11,7 @@ L'obiettivo è realizzare un'applicazione mobile che:
 ## Django Rest Framework
 - Autenticazione con JWT.
 - API REST per gestione utenti, gruppi, post, badge, commenti e immagini.
-- Storage immagini e metadati (OCR, oggetti rilevati, ecc.). **In realtà non so se si usa**
+- Storage immagini e metadati (OCR, oggetti rilevati, ecc.).
 
 ## Endpoints
 ### Users

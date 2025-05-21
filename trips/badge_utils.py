@@ -1,7 +1,7 @@
 from .models import Badge, UserGroupBadge
 from posts.models import Post
 from comments.models import Comment
-from django.db.models import Count, Q
+from django.db.models import Count
 
 def assign_unique_badge(user, group, badge_name, description=""):
     badge, _ = Badge.objects.get_or_create(name=badge_name, defaults={"description": description})
@@ -27,15 +27,15 @@ def evaluate_badge(user, group):
 
     # Ora assegniamo badge in base a queste metriche
     if post_count >= 10:
-        return "Fotografo", "Ha pubblicato almeno 10 post nel gruppo."
+        return "📸 Fotografo", "Ha pubblicato almeno 10 post nel gruppo."
     if comment_count >= 10:
-        return "Sociale", "Ha scritto almeno 10 commenti nel gruppo."
+        return "🌐 Sociale", "Ha scritto almeno 10 commenti nel gruppo."
     if likes_received >= 20:
-        return "Popolare", "Ha ricevuto almeno 20 like nel gruppo."
+        return "🔥 Popolare", "Ha ricevuto almeno 20 like nel gruppo."
     if likes_given >= 50:
-        return "Fanatic Like", "Ha messo almeno 50 like nel gruppo."
+        return "🧡 Fanatic Like", "Ha messo almeno 50 like nel gruppo."
 
-    return "Partecipante", "Membro attivo del gruppo."
+    return "🙋 Partecipante", "Membro attivo del gruppo."
 
 def check_and_assign_user_badge(user, group):
     badge_name, description = evaluate_badge(user, group)
