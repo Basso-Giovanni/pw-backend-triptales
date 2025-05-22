@@ -80,7 +80,7 @@ class UserTopLikesView(APIView):
         assert_user_is_group_member(self.request.user, group_id)
         user_likes = (
             User.objects.filter(created_posts__group_id=group_id)
-            .annotate(total_likes=Count('created_posts__likes', distinct=True))
+            .annotate(total_likes=Count('created_posts__likes'))
             .filter(total_likes__gt=0)  #ignora chi non ha like
             .order_by('-total_likes')
         )
